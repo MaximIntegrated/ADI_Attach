@@ -36,6 +36,9 @@ jobs:
           channel: 'stable'
           cache: true
       
+      - name: Clear Flutter cache
+        run: flutter clean
+
       - name: Get dependencies
         run: flutter pub get
       
@@ -46,6 +49,9 @@ jobs:
 
       - name: Generate C to Dart files
         run: dart run ffigen
+      
+      - name: Check Flutter Doctor
+        run: flutter doctor -v
 
       - name: Start Android Release Build
         run: flutter build apk --release
