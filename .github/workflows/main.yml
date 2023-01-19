@@ -3,16 +3,14 @@ name: Android Release
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
   build:
     name: Create Android Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Download Android keystore
@@ -27,12 +25,14 @@ jobs:
           echo "storePassword=${{ secrets.LMAXIM_KEY_STORE_PASSWORD }}" >> android/key.properties
           echo "keyPassword=${{ secrets.LMAXIM_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.LMAXIM_KEY_ALIAS }}" >> android/key.properties
-      - uses: actions/setup-java@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: "11"
           cache: gradle
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.9"
           channel: 'stable'
