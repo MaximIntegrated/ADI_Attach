@@ -27,15 +27,12 @@ jobs:
           echo "keyAlias=${{ secrets.LMAXIM_KEY_ALIAS }}" >> android/key.properties
       - uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
           java-version: "11"
-          cache: gradle
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.9"
           channel: 'stable'
-          cache: true
-      
+
       - name: Clear Flutter cache
         run: flutter clean
 
@@ -54,7 +51,7 @@ jobs:
         run: flutter doctor -v
 
       - name: Start Android Release Build
-        run: flutter build apk --release
+        run: flutter build apk --release --info
 
       - name: Upload Android Release
         uses: actions/upload-artifact@v2
