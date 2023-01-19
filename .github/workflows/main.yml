@@ -55,7 +55,7 @@ jobs:
         run: flutter doctor -v
 
       - name: Start Android Release Build
-        run: flutter build apk --release
+        run: flutter build apk -v
 
       - name: Upload Android Release
         uses: actions/upload-artifact@v2
