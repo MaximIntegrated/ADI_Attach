@@ -31,16 +31,12 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: "11"
+          cache: gradle
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.9"
           channel: 'stable'
-
-      - name: Update Flutter Pub
-        run: flutter pub upgrade
-
-      - name: Clear Flutter cache
-        run: flutter clean
+          cache: true
 
       - name: Get dependencies
         run: flutter pub get
@@ -52,9 +48,6 @@ jobs:
 
       - name: Generate C to Dart files
         run: dart run ffigen
-      
-      - name: Check Flutter Doctor
-        run: flutter doctor -v
 
       - name: Start Android Release Build
         run: flutter build apk --release
