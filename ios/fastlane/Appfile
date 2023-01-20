@@ -1,5 +1,5 @@
 app_identifier("adi.ssp.ist.adiAttach") # The bundle identifier of your app
-apple_id("kutlay.hanli@maximintegrated.com") # Your Apple Developer Portal username
+apple_id("ahmet.polat@analog.com") # Your Apple Developer Portal username
 
 itc_team_id("121144457") # App Store Connect Team ID
 team_id("BHX7P5XXGN") # Developer Portal Team ID
