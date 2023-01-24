@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build_android:
     name: Create Android Build
     runs-on: ubuntu-latest
     steps:
@@ -71,3 +71,37 @@ jobs:
         with:
           name: adi_attach_android_v${{env.VERSION}}
           path: release/**
+
+  build_ios:
+    name: Build iOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "11"
+          cache: gradle
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.9"
+          channel: 'stable'
+          cache: true
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "10.0"
+
+      - name: Generate C to Dart files
+        run: dart run ffigen
+
+      - name: Start IOS Release Build
+        run: flutter build ios --release --no-codesign
