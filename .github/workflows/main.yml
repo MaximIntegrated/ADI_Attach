@@ -64,7 +64,7 @@ jobs:
         run: |
           # Create release folder and add all related files here
           mkdir release
-          mv build/app/outputs/bundle/release/app.aab release/adi_attach_android_v${VERSION}.aab
+          mv build/app/outputs/bundle/release/app-release.aab release/adi_attach_android_v${VERSION}.aab
         
       - name: Upload Android Release
         uses: actions/upload-artifact@v2
