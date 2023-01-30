@@ -141,6 +141,7 @@ jobs:
       - name: Build xArchive
         run: |
           xcodebuild -workspace ios/Runner.xcworkspace -scheme ${{ env.SHEME }} -configuration ${{ env.BUILD_CONFIGURATION }} DEVELOPMENT_TEAM=${{ env.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=4454b2e6-7fac-467d-a87f-c6923558cea2 clean archive CODE_SIGN_IDENTITY="Apple Development: ahmet polat (8SXNJG9LZL)"
+      
       - name: Export ipa
         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
