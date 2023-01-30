@@ -134,10 +134,4 @@ jobs:
         run: dart run ffigen
 
       - name: Build Flutter
-        run: flutter build ipa --release --no-codesign
-
-      - name: Publish iOS Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: adi_attach_ios_v${{env.VERSION}}
-          path: build/ios/ipa/*.ipa
+        run: flutter build ios --release --no-codesign
