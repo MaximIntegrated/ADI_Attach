@@ -89,6 +89,12 @@ jobs:
         with:
           submodules: true
 
+      - name: Set App Version
+        run: |
+          VERSION=$(awk '/version:/ {print $2}' pubspec.yaml | tr -d '\r')
+          VERSION="${VERSION}.${{github.run_number}}"
+          echo $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Install Apple Certificate
         uses: apple-actions/import-codesign-certs@v1
@@ -127,23 +133,11 @@ jobs:
       - name: Generate C to Dart files
         run: dart run ffigen
 
-      
-      
       - name: Build Flutter
         run: flutter build ios --release --no-codesign
 
-      - name: Build resolve Swift dependencies
-        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
-
-      - name: Build xArchive
-        run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release DEVELOPMENT_TEAM=BHX7P5XXGN -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=4454b2e6-7fac-467d-a87f-c6923558cea2 clean archive CODE_SIGN_IDENTITY="Apple Distribution: Maxim Integrated Products, Inc"
-
-      - name: Export ipa
-        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
-
-      - name: Publish iOS Artefacts
+      - name: Publish iOS Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: release-ios
-          path: build-output/ios
+          name: adi_attach_ios_v${{env.VERSION}}
+          path: build/ios/ipa/*.ipa
